@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Neoguri : MonoBehaviour
 {
+
     Rigidbody2D rig;
     Animator animator;
     public float JumpPower=2f;
+    public IEnumerator m_typeMove;
     float horizontalMove, verticalMove;
     bool isGround = false;
     
@@ -15,6 +18,8 @@ public class Neoguri : MonoBehaviour
     {
         animator= GetComponent<Animator>();
         rig = GetComponent<Rigidbody2D>();
+
+        
     }
 
     // Update is called once per frame
@@ -24,36 +29,40 @@ public class Neoguri : MonoBehaviour
         verticalMove = Input.GetAxisRaw("Vertical");
 
         animator.SetFloat("LookDirection", horizontalMove);
+
+        playerMove();
         
+        AnimationUpdate();
+    }
 
-
-
-
-        if (Input.GetKeyDown(KeyCode.Space)){
-            transform.position +=Vector3.up * Time.deltaTime;
+    public void playerMove()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            transform.position += Vector3.up * Time.deltaTime;
             jumpAnimation();
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            transform.position += Vector3.down * Time.deltaTime;
+            animator.SetBool("isLay", true);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             transform.position += Vector3.left * Time.deltaTime;
-            
+            animator.SetFloat("LookDirection", horizontalMove);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
             transform.position += Vector3.right * Time.deltaTime;
-            
+            animator.SetFloat("LookDirection", horizontalMove);
         }
-        
-        AnimationUpdate();
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ground");
+        if (collision.gameObject.tag == "Ground")
         isGround = true;
+        animator.SetBool("isJump", false);
     }
 
     void jumpAnimation()
@@ -61,6 +70,7 @@ public class Neoguri : MonoBehaviour
         if (isGround)
         {
             rig.AddForce(Vector3.up * JumpPower, ForceMode2D.Impulse);
+            animator.SetBool("isJump", true);
             isGround = false;
             Debug.Log("jump!");
         }
@@ -72,8 +82,10 @@ public class Neoguri : MonoBehaviour
         if (horizontalMove == 0 && verticalMove == 0)
         {
             animator.SetBool("isRunning", false);
+            animator.SetBool("isLay", false);
         }
         else animator.SetBool("isRunning",true);
+        
 
     }
 }
