@@ -9,6 +9,7 @@ public class Neoguri : MonoBehaviour
     Rigidbody2D rig;
     Animator animator;
     public float JumpPower=2f;
+    public float PlayerSpeed = 1f;
     public IEnumerator m_typeMove;
     float horizontalMove, verticalMove;
     bool isGround = false;
@@ -39,22 +40,32 @@ public class Neoguri : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            transform.position += Vector3.up * Time.deltaTime;
+            
+            animator.SetBool("isJump", true);
             jumpAnimation();
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
             animator.SetBool("isLay", true);
+            PlayerSpeed = 0.5f;
+            
+        }
+        if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            PlayerSpeed = 1f;
+            animator.SetBool("isLay", false);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.position += Vector3.left * Time.deltaTime;
+            transform.position += Vector3.left * PlayerSpeed * Time.deltaTime;
             animator.SetFloat("LookDirection", horizontalMove);
+            animator.SetFloat("StaticLookD", -1);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.position += Vector3.right * Time.deltaTime;
+            transform.position += Vector3.right * PlayerSpeed * Time.deltaTime;
             animator.SetFloat("LookDirection", horizontalMove);
+            animator.SetFloat("StaticLookD", 1);
         }
     }
 
@@ -70,9 +81,9 @@ public class Neoguri : MonoBehaviour
         if (isGround)
         {
             rig.AddForce(Vector3.up * JumpPower, ForceMode2D.Impulse);
-            animator.SetBool("isJump", true);
+
             isGround = false;
-            Debug.Log("jump!");
+            
         }
     }
 
@@ -82,7 +93,7 @@ public class Neoguri : MonoBehaviour
         if (horizontalMove == 0 && verticalMove == 0)
         {
             animator.SetBool("isRunning", false);
-            animator.SetBool("isLay", false);
+            
         }
         else animator.SetBool("isRunning",true);
         
