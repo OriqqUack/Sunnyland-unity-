@@ -7,13 +7,18 @@ public class DialogueSystem : MonoBehaviour
 {
     public Text txtName;
     public Text txtSentence;
+    public Animator anim;
+    Neoguri Player;
+
+    private void Awake()
+    {
+        Player = GameObject.Find("HeroRat").GetComponent<Neoguri>();
+    }
 
     Queue<string> sentences = new Queue<string>();
-
-    public Animator anim;
-
     public void Begin(Dialogue info)
     {
+        Player.PlayerSpeed = 0f;
         anim.SetBool("isOpen", true);
         sentences.Clear();
 
@@ -23,17 +28,13 @@ public class DialogueSystem : MonoBehaviour
         {
             sentences.Enqueue(sentence); //개체를 끝부분에 추가
         }
-        if (Input.GetKey(KeyCode.X))
-        {
-            Next();
-        }
-        
+        Next(); //캔버스에서 바로 시작할 수 있게끔 설정.
     }
 
     public void Next()
     {
 
-        if (sentences.Count == 0)
+        if (sentences.Count == 1)
         {
             End();
             return;
@@ -61,5 +62,6 @@ public class DialogueSystem : MonoBehaviour
     {
         txtSentence.text= string.Empty;
         anim.SetBool("isOpen", false);
+        Player.PlayerSpeed=1f;
     }
 }

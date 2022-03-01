@@ -19,7 +19,6 @@ public class Neoguri : MonoBehaviour
     {
         animator= GetComponent<Animator>();
         rig = GetComponent<Rigidbody2D>();
-
         
     }
 
@@ -40,7 +39,6 @@ public class Neoguri : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            
             animator.SetBool("isJump", true);
             jumpAnimation();
         }
@@ -48,7 +46,6 @@ public class Neoguri : MonoBehaviour
         {
             animator.SetBool("isLay", true);
             PlayerSpeed = 0.5f;
-            
         }
         if (Input.GetKeyUp(KeyCode.DownArrow))
         {
@@ -80,7 +77,7 @@ public class Neoguri : MonoBehaviour
     {
         if (isGround)
         {
-            rig.AddForce(Vector3.up * JumpPower, ForceMode2D.Impulse);
+            rig.AddForce(Vector3.up * PlayerSpeed*JumpPower, ForceMode2D.Impulse);
 
             isGround = false;
             
@@ -93,10 +90,11 @@ public class Neoguri : MonoBehaviour
         if (horizontalMove == 0 && verticalMove == 0)
         {
             animator.SetBool("isRunning", false);
-            
         }
-        else animator.SetBool("isRunning",true);
-        
+        else
+        {
+            animator.SetBool("isRunning", true);
+        }
 
     }
 }

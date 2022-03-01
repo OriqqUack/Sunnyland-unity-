@@ -7,14 +7,14 @@ public class NpcController : MonoBehaviour
     Rigidbody2D rig;
     public Dialogue info;
     Animator anim;
-    
+    DialogueSystem Ds;
 
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-
+        
         
     }
 

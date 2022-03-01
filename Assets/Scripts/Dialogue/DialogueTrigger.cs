@@ -10,5 +10,6 @@ public class DialogueTrigger : MonoBehaviour
     {
         var system = FindObjectOfType<DialogueSystem>();
         system.Begin(info);
+        
     }
 }
