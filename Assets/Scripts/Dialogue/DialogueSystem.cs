@@ -8,17 +8,12 @@ public class DialogueSystem : MonoBehaviour
     public Text txtName;
     public Text txtSentence;
     public Animator anim;
-    Neoguri Player;
 
-    private void Awake()
-    {
-        Player = GameObject.Find("HeroRat").GetComponent<Neoguri>();
-    }
 
     Queue<string> sentences = new Queue<string>();
     public void Begin(Dialogue info)
     {
-        Player.PlayerSpeed = 0f;
+        Time.timeScale=0f;
         anim.SetBool("isOpen", true);
         sentences.Clear();
 
@@ -26,42 +21,43 @@ public class DialogueSystem : MonoBehaviour
 
         foreach (var sentence in info.sentences)
         {
-            sentences.Enqueue(sentence); //°³Ã¼¸¦ ³¡ºÎºÐ¿¡ Ãß°¡
+            sentences.Enqueue(sentence); //ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ÎºÐ¿ï¿½ ï¿½ß°ï¿½
         }
-        Next(); //Äµ¹ö½º¿¡¼­ ¹Ù·Î ½ÃÀÛÇÒ ¼ö ÀÖ°Ô²û ¼³Á¤.
+        
     }
 
     public void Next()
     {
-
-        if (sentences.Count == 1)
+        if(sentences.Count==0)
         {
             End();
             return;
         }
+        
 
         txtSentence.text = string.Empty;
-        StopAllCoroutines(); //ÄÚ·çÆ¾Àº ½Ã°£ÀÇ °æ°ú¿¡ µû¸¥ ÀýÂ÷Àû ´Ü°è¸¦ ¼öÇàÇÏ´Â ·ÎÁ÷À» ±¸ÇöÇÏ´Âµ¥ »ç¿ëµÇ´Â ÇÔ¼ö
+        StopAllCoroutines(); //ï¿½Ú·ï¿½Æ¾ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°è¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Ô¼ï¿½
         StartCoroutine(TypeSentence(sentences.Dequeue()));
         
-        //sentences.Dequeue() ¸Ç¾Õ¿¡ µ¥ÀÌÅÍ¸¸ °¡Á®¿À´Â °ÍÀÌ°í ÀÌ°ÍÀ» ½ÇÇà ½ÃÄ×À» ½Ã¿¡´Â »ç¶óÁö°í sentences¸¦ Ãâ·Â½Ã ¸Ç ¾Õ µ¥ÀÌÅÍ´Â »ç¶óÁ®ÀÕ´À »óÅÂ·Î µÇ¾îÀÖ´Ù.
+        //sentences.Dequeue() ï¿½Ç¾Õ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ì°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sentencesï¿½ï¿½ ï¿½ï¿½Â½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½Ç¾ï¿½ï¿½Ö´ï¿½.
     }
 
     IEnumerator TypeSentence(string sentence)
     {
-        foreach(var letter in sentence) //var Çü½ÄÀº ÄÄÇ»ÅÍ°¡ ¾Ë¾Æ¼­ ÀÚ·áÇüÀ» Ã£À» ¼ö ÀÖµû.
+        
+        foreach(var letter in sentence) //var ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç»ï¿½Í°ï¿½ ï¿½Ë¾Æ¼ï¿½ ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½.
         {
             txtSentence.text += letter;
-            yield return new WaitForSeconds(0.1f); 
+            yield return new WaitForSecondsRealtime(0.1f);
         }
 
      
     }
     
-    private void End()
+    public void End()
     {
         txtSentence.text= string.Empty;
         anim.SetBool("isOpen", false);
-        Player.PlayerSpeed=1f;
+        Time.timeScale=1f;
     }
 }

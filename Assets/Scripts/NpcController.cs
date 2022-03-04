@@ -2,25 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class NpcController : MonoBehaviour
 {
     Rigidbody2D rig;
     public Dialogue info;
     Animator anim;
-    DialogueSystem Ds;
+    DialogueSystem system;
+    ImageChanger imgC;
+    public SpriteRenderer spriteR;
+    public bool isBegin=false;
 
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        
-        
+        imgC=GameObject.FindGameObjectWithTag("changeImage").GetComponent<ImageChanger>();
+        spriteR=GetComponent<SpriteRenderer>();
+        system=GameObject.Find("dialogueSystem").GetComponent<DialogueSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(isBegin==true)
+        {
+            if(Input.GetKeyDown(KeyCode.Z))
+            {
+                system.Next();           
+                Debug.Log("next");     
+            }
+            
+        }
+
+        
         
     }
 
@@ -28,10 +44,14 @@ public class NpcController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
-                var system = FindObjectOfType<DialogueSystem>();
-                system.Begin(info);
+                imgC.sprite=spriteR.sprite;
+                if(isBegin==false)
+                {
+                    system.Begin(info);
+                    isBegin=true;       
+                }
                 
             }
         }

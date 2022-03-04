@@ -77,7 +77,7 @@ public class Neoguri : MonoBehaviour
     {
         if (isGround)
         {
-            rig.AddForce(Vector3.up * PlayerSpeed*JumpPower, ForceMode2D.Impulse);
+            rig.AddForce(Vector3.up * PlayerSpeed* JumpPower, ForceMode2D.Impulse);
 
             isGround = false;
             
