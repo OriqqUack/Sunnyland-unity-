@@ -30,14 +30,18 @@ public class NpcController : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Z))
             {
-                system.Next();           
+                if (system.sentences.Count == 0)
+                {
+                    isBegin = false;
+                    system.End();
+                }
+                else
+                {
+                    system.Next();
+                }
                 Debug.Log("next");     
             }
-            
         }
-
-        
-        
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -52,7 +56,6 @@ public class NpcController : MonoBehaviour
                     system.Begin(info);
                     isBegin=true;       
                 }
-                
             }
         }
     }

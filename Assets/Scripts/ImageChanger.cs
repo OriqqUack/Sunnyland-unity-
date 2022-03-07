@@ -9,7 +9,7 @@ public class ImageChanger : MonoBehaviour
     
     public Sprite sprite;
 
-    void Start()
+    void Update()
     {
         img=GetComponent<Image>();
         img.sprite=sprite;

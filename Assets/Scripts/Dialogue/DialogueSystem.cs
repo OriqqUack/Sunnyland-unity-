@@ -8,9 +8,21 @@ public class DialogueSystem : MonoBehaviour
     public Text txtName;
     public Text txtSentence;
     public Animator anim;
+    NpcController Ds;
+    
 
 
-    Queue<string> sentences = new Queue<string>();
+    public Queue<string> sentences = new Queue<string>();
+
+    private void Start()
+    {
+        Ds = GameObject.FindWithTag("Npc").GetComponent<NpcController>();
+    }
+
+    private void Update()
+    {
+        
+    }
     public void Begin(Dialogue info)
     {
         Time.timeScale=0f;
@@ -28,12 +40,8 @@ public class DialogueSystem : MonoBehaviour
 
     public void Next()
     {
-        if(sentences.Count==0)
-        {
-            End();
-            return;
-        }
         
+
 
         txtSentence.text = string.Empty;
         StopAllCoroutines(); //�ڷ�ƾ�� �ð��� ����� ���� ������ �ܰ踦 �����ϴ� ������ �����ϴµ� ���Ǵ� �Լ�
@@ -59,5 +67,6 @@ public class DialogueSystem : MonoBehaviour
         txtSentence.text= string.Empty;
         anim.SetBool("isOpen", false);
         Time.timeScale=1f;
+        
     }
 }
