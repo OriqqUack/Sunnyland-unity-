@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ImageChanger : MonoBehaviour
 {
     public Image img;
-    
+        
     public Sprite sprite;
 
     void Update()
@@ -14,4 +14,5 @@ public class ImageChanger : MonoBehaviour
         img=GetComponent<Image>();
         img.sprite=sprite;
     }
+    
 }
