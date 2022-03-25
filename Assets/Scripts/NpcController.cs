@@ -10,8 +10,10 @@ public class NpcController : MonoBehaviour
     Animator anim;
     DialogueSystem system;
     ImageChanger imgC;
-    public SpriteRenderer spriteR;
-    public bool isBegin=false;
+
+    private GameObject Ui_z;
+    private SpriteRenderer spriteR;
+    private bool isBegin=false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,11 +23,13 @@ public class NpcController : MonoBehaviour
         imgC=GameObject.FindGameObjectWithTag("changeImage").GetComponent<ImageChanger>();
         spriteR=GetComponent<SpriteRenderer>();
         system=GameObject.Find("dialogueSystem").GetComponent<DialogueSystem>();
+        Ui_z = GameObject.Find("HeroRat").transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if(isBegin==true)
         {
             if(Input.GetKeyDown(KeyCode.Z))
@@ -50,11 +54,11 @@ public class NpcController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                imgC.sprite=spriteR.sprite;
-                if(isBegin==false)
+                imgC.sprite = spriteR.sprite;
+                if (isBegin == false)
                 {
                     system.Begin(info);
-                    isBegin=true;       
+                    isBegin = true;
                 }
             }
         }
