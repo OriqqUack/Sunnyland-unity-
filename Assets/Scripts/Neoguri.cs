@@ -9,6 +9,8 @@ public class Neoguri : MonoBehaviour
     Rigidbody2D rig;
     Animator animator;
     Animator HP;
+    public GameObject bullet;
+    public Transform FirePos;
     public float JumpPower=2f;
     public float PlayerSpeed = 1f;
     float horizontalMove, verticalMove;
@@ -18,14 +20,18 @@ public class Neoguri : MonoBehaviour
     float invincibleTime = 2f;
     bool isInvincible;
     float invincibleTimer;
-    
+
+    float angle;
+    Vector2 target, mouse;
+
     // Start is called before the first frame update
     void Start()
     {
         animator= GetComponent<Animator>();
         rig = GetComponent<Rigidbody2D>();
         HP = GameObject.FindWithTag("HP").GetComponent<Animator>();
-            }
+        
+    }
 
     // Update is called once per frame
     void Update()
@@ -45,6 +51,17 @@ public class Neoguri : MonoBehaviour
             if (invincibleTimer < 0)
                 isInvincible = false;
         }
+
+        mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition)-transform.position;
+        angle = Mathf.Atan2(mouse.y - target.y, mouse.x - target.x) * Mathf.Rad2Deg;
+
+        if (Input.GetMouseButton(0))
+        {
+            Instantiate(bullet, FirePos.transform.position, Quaternion.AngleAxis(angle-90,Vector3.forward));
+        }
+
+
+        
     }
 
     public void playerMove()
