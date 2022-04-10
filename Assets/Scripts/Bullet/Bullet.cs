@@ -6,12 +6,13 @@ public class Bullet : MonoBehaviour
 {
     public GameObject bullet;
     public Transform FirePos;
-
+    float time, timer=1;
+    bool isTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        time = timer;
     }
 
     // Update is called once per frame
@@ -19,7 +20,14 @@ public class Bullet : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            Instantiate(bullet, FirePos.transform.position, FirePos.transform.rotation);
+            if (isTime)
+            {
+                Instantiate(bullet, FirePos.transform.position, FirePos.transform.rotation);
+                isTime = false;
+            }
         }
+
     }
+
+    
 }

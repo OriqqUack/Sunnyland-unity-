@@ -9,4 +9,15 @@ public class ButtonController : MonoBehaviour
     {
         SceneManager.LoadScene("GameScene");
     }
+
+    public void SceneMain()
+    {
+        SceneManager.LoadScene("Main Scene");
+    }
+
+    public void SceneRetry()
+    {
+        SceneManager.LoadScene("GameScene");
+        Time.timeScale = 1f;
+    }
 }
